@@ -32,7 +32,7 @@ $cursor = $db->px_2->find($filter, $options);
 <a href="add.html">Add new record</a><br/><br/>
    <table id="example" class="table table-striped table-bordered" style="width:100%" id="example">
     <thead>
-    <tr bgcolor='#CCCCCC'>
+    <tr>
         <th>px</th>
         <th>Gender</th>
         <th>Race</th>
