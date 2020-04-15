@@ -14,23 +14,21 @@ $cursor = $db->px_2->find($filter, $options);
 <html>
 <head>
     <title>Home</title>
-<!--     <link rel="stylesheet" type="text/css" href="node_modules/datatables/media/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css"> -->
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="css/dataTables.bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" href="fonts/font-awesome/css/font-awesome.min.css">
 
-<!--     <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="node_modules/datatables/media/js/jquery.dataTables.min.js"></script>
- --> 
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
     <script src="js/natural.js"></script>
+    <script src="js/dataTables.bulma.min.js"></script>
 </head>
  
 <body>
 <a href="add.html">Add new record</a><br/><br/>
-   <table id="example" class="table table-striped table-bordered" style="width:100%" id="example">
+    <div class="tbl-format">
+    <table id="example" style="width:100%" id="example">
     <thead>
     <tr>
         <th>px</th>
@@ -158,13 +156,14 @@ $cursor = $db->px_2->find($filter, $options);
     }
     ?>
     </tbody></table>
+    </div>
 </body>
 
 <script type="text/javascript">
     $(document).ready( function () {
         $('#example').DataTable({
-            columnDefs: [ { targets: 0, type: 'natural' } ],
-            scrollX: true
+            responsive: true,
+            columnDefs: [ { "className": "dt-center", "targets": "_all", "type": 'natural' } ],
         });
     } );
 </script>
