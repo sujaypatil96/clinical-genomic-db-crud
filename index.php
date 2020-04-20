@@ -26,12 +26,15 @@ $cursor = $db->px_2->find($filter, $options);
 </head>
  
 <body>
-<a href="add.html">Add new record</a><br/><br/>
-    <div class="tbl-format">
-    <table id="example" style="width:100%" id="example">
+    <div class="header">
+    <button class="button is-primary" id="add-btn" type="button">Add New Record</button>
+    </div>
+    <div id="tbl-format">
+    <table class="table" id="example">
     <thead>
     <tr>
         <th>px</th>
+        <th>Update</th>
         <th>Gender</th>
         <th>Race</th>
         <th>Vital Status</th>
@@ -88,71 +91,355 @@ $cursor = $db->px_2->find($filter, $options);
         <th>Exon 16 RPKM 16</th>
         <th>Exon 17 RPKM 17</th>
         <th>Exon 18 RPKM 18</th>
-        <th>Update</th>
     </tr>
     </thead>
     <tbody>
     <?php
     foreach ($cursor as $cur) {
         echo "<tr>";
-        echo "<td>".$cur['px']."</td>";
-        echo "<td>".$cur['gender']."</td>";
-        echo "<td>".$cur['race']."</td>";
-        echo "<td>".$cur['vital_status']."</td>";
-        echo "<td>".$cur['days_to_last_followup']."</td>";
-        echo "<td>".$cur['age_at_diagnosis']."</td>";
-        echo "<td>".$cur['pathologic_T']."</td>";
-        echo "<td>".$cur['pathologic_N']."</td>";
-        echo "<td>".$cur['pathologic_M']."</td>";
-        echo "<td>".$cur['pathologic_stage']."</td>";
-        echo "<td>".$cur['surgical_procedure_first']."</td>";
-        echo "<td>".$cur['drug_name_1']."</td>";
-        echo "<td>".$cur['drug_name_2']."</td>";
-        echo "<td>".$cur['drug_name_3']."</td>";
-        echo "<td>".$cur['drug_name_4']."</td>";
-        echo "<td>".$cur['drug_name_5']."</td>";
-        echo "<td>".$cur['drug_name_6']."</td>";
-        echo "<td>".$cur['drug_name_7']."</td>";
-        echo "<td>".$cur['drug_name_8']."</td>";
-        echo "<td>".$cur['radiation_type_1']."</td>";
-        echo "<td>".$cur['anatomic_treatment_site_1']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_1']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_2']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_3']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_4']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_5']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_6']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_7']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_8']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_9']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_10']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_11']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_12']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_13']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_14']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_15']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_16']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_17']."</td>";
-        echo "<td>".$cur['Pathogenic_Chr_Pos_18']."</td>";
-        echo "<td>".$cur['Exon_1_RPKM_1']."</td>";
-        echo "<td>".$cur['Exon_2_RPKM_2']."</td>";
-        echo "<td>".$cur['Exon_3_RPKM_3']."</td>";
-        echo "<td>".$cur['Exon_4_RPKM_4']."</td>";
-        echo "<td>".$cur['Exon_5_RPKM_5']."</td>";
-        echo "<td>".$cur['Exon_6_RPKM_6']."</td>";
-        echo "<td>".$cur['Exon_7_RPKM_7']."</td>";
-        echo "<td>".$cur['Exon_8_RPKM_8']."</td>";
-        echo "<td>".$cur['Exon_9_RPKM_9']."</td>";
-        echo "<td>".$cur['Exon_10_RPKM_10']."</td>";
-        echo "<td>".$cur['Exon_11_RPKM_11']."</td>";
-        echo "<td>".$cur['Exon_12_RPKM_12']."</td>";
-        echo "<td>".$cur['Exon_13_RPKM_13']."</td>";
-        echo "<td>".$cur['Exon_14_RPKM_14']."</td>";
-        echo "<td>".$cur['Exon_15_RPKM_15']."</td>";
-        echo "<td>".$cur['Exon_16_RPKM_16']."</td>";
-        echo "<td>".$cur['Exon_17_RPKM_17']."</td>";
-        echo "<td>".$cur['Exon_18_RPKM_18']."</td>";
+        if (isset($cur['px'])) {
+            echo "<td>".$cur['px']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
         echo "<td><a href=\"edit.php?id=$cur[_id]\">Edit</a> | <a href=\"delete.php?id=$cur[_id]\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a></td>";        
+
+        if (isset($cur['gender'])) {
+            echo "<td>".$cur['gender']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['race'])) {
+            echo "<td>".$cur['race']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['vital_status'])) {
+            echo "<td>".$cur['vital_status']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['days_to_last_followup'])) {
+            echo "<td>".$cur['days_to_last_followup']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['age_at_diagnosis'])) {
+            echo "<td>".$cur['age_at_diagnosis']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['pathologic_T'])) {
+            echo "<td>".$cur['pathologic_T']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['pathologic_N'])) {
+            echo "<td>".$cur['pathologic_N']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['pathologic_M'])) {
+            echo "<td>".$cur['pathologic_M']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['pathologic_stage'])) {
+            echo "<td>".$cur['pathologic_stage']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['surgical_procedure_first'])) {
+            echo "<td>".$cur['surgical_procedure_first']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['drug_name_1'])) {
+            echo "<td>".$cur['drug_name_1']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['drug_name_2'])) {
+            echo "<td>".$cur['drug_name_2']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['drug_name_3'])) {
+            echo "<td>".$cur['drug_name_3']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['drug_name_4'])) {
+            echo "<td>".$cur['drug_name_4']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['drug_name_5'])) {
+            echo "<td>".$cur['drug_name_5']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['drug_name_6'])) {
+            echo "<td>".$cur['drug_name_6']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+        
+        if (isset($cur['drug_name_7'])) {
+            echo "<td>".$cur['drug_name_7']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['drug_name_8'])) {
+            echo "<td>".$cur['drug_name_8']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['radiation_type_1'])) {
+            echo "<td>".$cur['radiation_type_1']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['anatomic_treatment_site_1'])) {
+            echo "<td>".$cur['anatomic_treatment_site_1']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Pathogenic_Chr_Pos_1'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_1']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Pathogenic_Chr_Pos_2'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_2']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Pathogenic_Chr_Pos_3'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_3']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Pathogenic_Chr_Pos_4'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_4']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Pathogenic_Chr_Pos_5'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_5']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+        
+        if (isset($cur['Pathogenic_Chr_Pos_6'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_6']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Pathogenic_Chr_Pos_7'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_7']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+        
+        if (isset($cur['Pathogenic_Chr_Pos_8'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_8']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+        
+        if (isset($cur['Pathogenic_Chr_Pos_9'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_9']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Pathogenic_Chr_Pos_10'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_10']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Pathogenic_Chr_Pos_11'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_11']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Pathogenic_Chr_Pos_12'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_12']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Pathogenic_Chr_Pos_13'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_13']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Pathogenic_Chr_Pos_14'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_14']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Pathogenic_Chr_Pos_15'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_15']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Pathogenic_Chr_Pos_16'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_16']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Pathogenic_Chr_Pos_17'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_17']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Pathogenic_Chr_Pos_18'])) {
+            echo "<td>".$cur['Pathogenic_Chr_Pos_18']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_1_RPKM_1'])) {
+            echo "<td>".$cur['Exon_1_RPKM_1']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_2_RPKM_2'])) {
+            echo "<td>".$cur['Exon_2_RPKM_2']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_3_RPKM_3'])) {
+            echo "<td>".$cur['Exon_3_RPKM_3']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_4_RPKM_4'])) {
+            echo "<td>".$cur['Exon_4_RPKM_4']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_5_RPKM_5'])) {
+            echo "<td>".$cur['Exon_5_RPKM_5']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_6_RPKM_6'])) {
+            echo "<td>".$cur['Exon_6_RPKM_6']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_7_RPKM_7'])) {
+            echo "<td>".$cur['Exon_7_RPKM_7']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_8_RPKM_8'])) {
+            echo "<td>".$cur['Exon_8_RPKM_8']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_9_RPKM_9'])) {
+            echo "<td>".$cur['Exon_9_RPKM_9']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_10_RPKM_10'])) {
+            echo "<td>".$cur['Exon_10_RPKM_10']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_11_RPKM_11'])) {
+            echo "<td>".$cur['Exon_11_RPKM_11']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_12_RPKM_12'])) {
+            echo "<td>".$cur['Exon_12_RPKM_12']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_13_RPKM_13'])) {
+            echo "<td>".$cur['Exon_13_RPKM_13']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_14_RPKM_14'])) {
+            echo "<td>".$cur['Exon_14_RPKM_14']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_15_RPKM_15'])) {
+            echo "<td>".$cur['Exon_15_RPKM_15']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_16_RPKM_16'])) {
+            echo "<td>".$cur['Exon_16_RPKM_16']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_17_RPKM_17'])) {
+            echo "<td>".$cur['Exon_17_RPKM_17']."</td>";
+        } else {
+            echo "<td></td>";
+        }
+
+        if (isset($cur['Exon_18_RPKM_18'])) {
+            echo "<td>".$cur['Exon_18_RPKM_18']."</td>";
+        } else {
+            echo "<td></td>";
+        }
     }
     ?>
     </tbody></table>
@@ -160,10 +447,14 @@ $cursor = $db->px_2->find($filter, $options);
 </body>
 
 <script type="text/javascript">
-    $(document).ready( function () {
+    $(document).ready(function () {
         $('#example').DataTable({
             responsive: true,
             columnDefs: [ { "className": "dt-center", "targets": "_all", "type": 'natural' } ],
         });
-    } );
+    });
+
+    document.getElementById("add-btn").onclick = function () {
+        location.href = "add.html";
+    };
 </script>

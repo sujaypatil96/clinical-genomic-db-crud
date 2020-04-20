@@ -1,14 +1,22 @@
 <html>
 <head>
     <title>Add Data</title>
+
+    <link rel="stylesheet" type="text/css" href="css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="css/dataTables.bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" href="fonts/font-awesome/css/font-awesome.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="js/natural.js"></script>
+    <script src="js/dataTables.bulma.min.js"></script>
 </head>
  
 <body>
 <?php
 //including the database connection file
 include_once("config.php");
-
-$bulk = new MongoDB\Driver\BulkWrite;
  
 if(isset($_POST['Submit'])) {    
     $px_record = array (
@@ -27,17 +35,22 @@ if(isset($_POST['Submit'])) {
     
     if ($errorMessage) {
         // print error message & link to the previous page
-        echo '<span style="color:red">'.$errorMessage.'</span>';
+        echo '<h2 class="title is-2">' . $errorMessage . '</h2><br /><br />';
         echo "<br/><a href='javascript:self.history.back();'>Go Back</a>";    
     } else {
-        //insert data to database table/collection named 'users'
         $db->px_2->insertOne($px_record);
         
         //display success message
-        echo "<font color='green'>Data added successfully.";
-        echo "<br/><a href='index.php'>View Result</a>";
+        echo '<div class="success-msg"><h2>Data added successfully!</h2></div><br /><br />';
+        echo '<div class="header"><button class="button is-primary" type="button" id="view-result">View Result</button></div>';
     }
 }
 ?>
 </body>
 </html>
+
+<script type="text/javascript">
+    document.getElementById("view-result").onclick = function () {
+        location.href = "index.php";
+    };
+</script>

@@ -1,37 +1,55 @@
 <html>
 <head>
     <title>Add Data</title>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="css/dataTables.bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" href="fonts/font-awesome/css/font-awesome.min.css">
 
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
+    <script src="js/natural.js"></script>
+    <script src="js/dataTables.bulma.min.js"></script>
 </head>
  
 <body>
-    <a href="index.php">Home</a>
+    <div class="header">
+    <button class="button is-primary" id="home-btn" type="button">Home</button>
+    </div>
     <br/><br/>
- 
-    <form action="add.php" method="post" name="form1">
-        <table width="25%" border="0">
-            <tr> 
-                <td>px</td>
-                <td><input type="text" name="id"></td>
-            </tr>
-            <tr> 
-                <td>Gender</td>
-                <td><input type="text" name="gender"></td>
-            </tr>
-            <tr> 
-                <td>Race</td>
-                <td><input type="text" name="race"></td>
-            </tr>
-            <tr> 
-                <td></td>
-                <td><input type="submit" name="Submit" value="Add"></td>
-            </tr>
-        </table>
-    </form>
+
+    <div id="add-form">  
+    <form action="add.php" method="post">
+        <div class="field">
+            <label class="label">Px id</label>
+            <div class="control">
+                <input class="input is-small" type="text" name="id">
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Gender</label>
+            <div class="control">
+                <input class="input is-small" type="text" name="gender">
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Race</label>
+            <div class="control">
+                <input class="input is-small" type="text" name="race">
+            </div>
+        </div>
+
+        <div class="control">
+        <button class="button is-link" name="Submit" value="Add">Submit</button>
+        </div>
+    </div>
 </body>
 </html>
+
+<script type="text/javascript">
+    document.getElementById("home-btn").onclick = function () {
+        location.href = "index.php";
+    };
+</script>
