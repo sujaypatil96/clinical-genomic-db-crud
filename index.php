@@ -9,8 +9,118 @@ $options = array(
 );
 // select data in ascending order from table/collection "px_2" (alphanumeric sort on column `px`)
 $cursor = $db->px_2->find($filter, $options);
+
+// get all documents from `px_2` collection
+$all_documents = $db->px_2->find();
+
+// declare arrays to subset of values from above "master" array
+$race_documents = array();
+$drug_name_1_documents = array();
+$drug_name_2_documents = array();
+$drug_name_3_documents = array();
+$drug_name_4_documents = array();
+$drug_name_5_documents = array();
+$drug_name_6_documents = array();
+$drug_name_7_documents = array();
+$drug_name_8_documents = array();
+$pathologic_stage_documents = array();
+
+$surgical_procedure_first_documents = array();
+foreach ($all_documents as $document) {
+    array_push($race_documents, $document["race"]);
+
+    array_push($pathologic_stage_documents, $document["pathologic_stage"]);
+    array_push($surgical_procedure_first_documents, $document["surgical_procedure_first"]);
+
+    array_push($drug_name_1_documents, $document["drug_name_1"]);
+    array_push($drug_name_2_documents, $document["drug_name_2"]);
+    array_push($drug_name_3_documents, $document["drug_name_3"]);
+    array_push($drug_name_4_documents, $document["drug_name_4"]);
+    array_push($drug_name_5_documents, $document["drug_name_5"]);
+    array_push($drug_name_6_documents, $document["drug_name_6"]);
+    array_push($drug_name_7_documents, $document["drug_name_7"]);
+    array_push($drug_name_8_documents, $document["drug_name_8"]);
+}
+
+// operations to prepare race data for viz.
+$race_documents_counts = array_count_values($race_documents);
+$race_doc_values = array();
+$race_doc_key_values = array();
+
+foreach ($race_documents_counts as $key => $value) {
+    array_push($race_doc_values, $value);
+    array_push($race_doc_key_values, $key);
+}
+
+// operations to prepare pathologic stage data for viz.
+$pathologic_stage_doc_counts = array_count_values($pathologic_stage_documents);
+$pathologic_stage_doc_values = array();
+$pathologic_stage_doc_key_values = array();
+
+foreach ($pathologic_stage_doc_counts as $key => $value) {
+    array_push($pathologic_stage_doc_values, $value);
+    array_push($pathologic_stage_doc_key_values, $key);
+}
+
+// operations to prepare surgical procedure first data for viz.
+$surgical_procedure_first_doc_counts = array_count_values($surgical_procedure_first_documents);
+$surgical_procedure_first_doc_values = array();
+$surgical_procedure_first_doc_key_values = array();
+
+foreach ($surgical_procedure_first_doc_counts as $key => $value) {
+    array_push($surgical_procedure_first_doc_values, $value);
+    array_push($surgical_procedure_first_doc_key_values, $key);
+}
+
+// operations to prepare drug name data for viz.
+$drug_names_arr_data = array_merge($drug_name_1_documents, 
+                                   $drug_name_2_documents,
+                                   $drug_name_3_documents, 
+                                   $drug_name_4_documents, 
+                                   $drug_name_5_documents, 
+                                   $drug_name_6_documents, 
+                                   $drug_name_7_documents, 
+                                   $drug_name_8_documents);
+
+$drug_names_arr_data_counts = array_count_values($drug_names_arr_data);
+unset($drug_names_arr_data_counts["NotAvailable"]);
+unset($drug_names_arr_data_counts["Null"]);
+
+$drug_name_doc_values = array();
+$drug_name_doc_key_values = array();
+
+foreach ($drug_names_arr_data_counts as $key => $value) {
+    array_push($drug_name_doc_values, $value);
+    array_push($drug_name_doc_key_values, $key);
+}
+
+// operations to prepare surgical procedure first data for viz. 2
+$lump_age = array();
+$mrm_age = array();
+$simple_age = array();
+$wle_age = array();
+$lumpectomy_mastectomy = $db->px_2->find(['surgical_procedure_first' => 'Lumpectomy']);
+$modified_radical_mastectomy = $db->px_2->find(['surgical_procedure_first' => 'ModifiedRadicalMastectomy']);
+$simple_mastectomy = $db->px_2->find(['surgical_procedure_first' => 'SimpleMastectomy']);
+$wide_local_excision = $db->px_2->find(['surgical_procedure_first' => 'WideLocalExcision']);
+
+foreach ($lumpectomy_mastectomy as $key => $value) {
+    array_push($lump_age, $value["age_at_diagnosis"]);
+}
+
+foreach ($modified_radical_mastectomy as $key => $value) {
+    array_push($mrm_age, $value["age_at_diagnosis"]);
+}
+
+foreach ($simple_mastectomy as $key => $value) {
+    array_push($simple_age, $value["age_at_diagnosis"]);
+}
+
+foreach ($wide_local_excision as $key => $value) {
+    array_push($wle_age, $value["age_at_diagnosis"]);
+}
 ?>
- 
+
 <html>
 <head>
     <title>Home</title>
@@ -21,6 +131,7 @@ $cursor = $db->px_2->find($filter, $options);
 
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
     <script src="js/natural.js"></script>
     <script src="js/dataTables.bulma.min.js"></script>
 </head>
@@ -55,24 +166,24 @@ $cursor = $db->px_2->find($filter, $options);
         <th>Drug Name 8</th>
         <th>Radiation Type</th>
         <th>Anatomic Treatment Site</th>
-        <th>Patholgenic Chr Position 1</th>
-        <th>Patholgenic Chr Position 2</th>
-        <th>Patholgenic Chr Position 3</th>
-        <th>Patholgenic Chr Position 4</th>
-        <th>Patholgenic Chr Position 5</th>
-        <th>Patholgenic Chr Position 6</th>
-        <th>Patholgenic Chr Position 7</th>
-        <th>Patholgenic Chr Position 8</th>
-        <th>Patholgenic Chr Position 9</th>
-        <th>Patholgenic Chr Position 10</th>
-        <th>Patholgenic Chr Position 11</th>
-        <th>Patholgenic Chr Position 12</th>
-        <th>Patholgenic Chr Position 13</th>
-        <th>Patholgenic Chr Position 14</th>
-        <th>Patholgenic Chr Position 15</th>
-        <th>Patholgenic Chr Position 16</th>
-        <th>Patholgenic Chr Position 17</th>
-        <th>Patholgenic Chr Position 18</th>
+        <th>Pathogenic Chr Position 1</th>
+        <th>Pathogenic Chr Position 2</th>
+        <th>Pathogenic Chr Position 3</th>
+        <th>Pathogenic Chr Position 4</th>
+        <th>Pathogenic Chr Position 5</th>
+        <th>Pathogenic Chr Position 6</th>
+        <th>Pathogenic Chr Position 7</th>
+        <th>Pathogenic Chr Position 8</th>
+        <th>Pathogenic Chr Position 9</th>
+        <th>Pathogenic Chr Position 10</th>
+        <th>Pathogenic Chr Position 11</th>
+        <th>Pathogenic Chr Position 12</th>
+        <th>Pathogenic Chr Position 13</th>
+        <th>Pathogenic Chr Position 14</th>
+        <th>Pathogenic Chr Position 15</th>
+        <th>Pathogenic Chr Position 16</th>
+        <th>Pathogenic Chr Position 17</th>
+        <th>Pathogenic Chr Position 18</th>
         <th>Exon 1 RPKM 1</th>
         <th>Exon 2 RPKM 2</th>
         <th>Exon 3 RPKM 3</th>
@@ -444,6 +555,17 @@ $cursor = $db->px_2->find($filter, $options);
     ?>
     </tbody></table>
     </div>
+    <h2><u><i>All Visualizations</i></u></h2>
+    <br><br>
+    <div id='pie_1'></div>
+    <hr>
+    <div id='pie_2'></div>
+    <hr>
+    <div id='pie_3'></div>
+    <hr>
+    <div id='bar_1'></div>
+    <hr>
+    <div id='box'></div>
 </body>
 
 <script type="text/javascript">
@@ -452,9 +574,102 @@ $cursor = $db->px_2->find($filter, $options);
             responsive: true,
             columnDefs: [ { "className": "dt-center", "targets": "_all", "type": 'natural' } ],
         });
+
+        var data_pie_1 = [{
+        values: <?php echo json_encode($race_doc_values); ?>,
+        labels: <?php echo json_encode($race_doc_key_values); ?>,
+        type: 'pie'
+        }];
+
+        var layout_pie_1 = {
+            title: 'Different Races',
+            height: 400,
+            width: 600
+        };
+
+        Plotly.newPlot('pie_1', data_pie_1, layout_pie_1);
+
+        var data_pie_2 = [{
+        values: <?php echo json_encode($pathologic_stage_doc_values); ?>,
+        labels: <?php echo json_encode($pathologic_stage_doc_key_values); ?>,
+        type: 'pie'
+        }];
+
+        var layout_pie_2 = {
+            title: 'Different Pathologic Stages',
+            height: 400,
+            width: 600
+        };
+
+        Plotly.newPlot('pie_2', data_pie_2, layout_pie_2);
+
+        var data_pie_3 = [{
+            values: <?php echo json_encode($surgical_procedure_first_doc_values); ?>,
+            labels: <?php echo json_encode($surgical_procedure_first_doc_key_values); ?>,
+            type: 'pie'
+        }];
+
+        var layout_pie_3 = {
+            title: 'Different Surgical Procedures',
+            height: 400,
+            width: 600
+        };
+
+        Plotly.newPlot('pie_3', data_pie_3, layout_pie_3);
+
+        var data_bar = [{
+            x: <?php echo json_encode($drug_name_doc_key_values); ?>,
+            y: <?php echo json_encode($drug_name_doc_values); ?>,
+            type: 'bar'
+        }];
+
+        layout_bar = {
+            title: 'Popularity of drugs across all patients',
+            xaxis: {
+                title: 'Drug Names'
+            },
+            yaxis: {
+                title: 'Number of times prescribed'
+            }
+        }
+
+        Plotly.newPlot('bar_1', data_bar, layout_bar);
+
+        var trace1 = {
+          y: <?php echo json_encode($lump_age); ?>,
+          name: 'Lumpectomy',
+          type: 'box'
+        };
+
+        var trace2 = {
+          y: <?php echo json_encode($mrm_age); ?>,
+          name: 'Modified Radical Mastectomy',
+          type: 'box'
+        };
+
+        var trace3 = {
+          y: <?php echo json_encode($simple_age); ?>,
+          name: 'Simple Mastectomy',
+          type: 'box'
+        };
+
+        var trace4 = {
+          y: <?php echo json_encode($wle_age); ?>,
+          name: 'Wide Local Excision',
+          type: 'box'
+        };
+
+        layout_box = {
+            title: 'Distribution of age of patients based on surgical procedure',
+            width: 1000
+        }
+
+        var data = [trace1, trace2, trace3, trace4];
+
+        Plotly.newPlot('box', data, layout_box);
     });
 
-    document.getElementById("add-btn").onclick = function () {
+    $("#add-btn").click(function () {
         location.href = "add.html";
-    };
+    });
 </script>
