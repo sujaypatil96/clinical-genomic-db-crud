@@ -29,17 +29,45 @@ $surgical_procedure_first_documents = array();
 foreach ($all_documents as $document) {
     array_push($race_documents, $document["race"]);
 
-    array_push($pathologic_stage_documents, $document["pathologic_stage"]);
-    array_push($surgical_procedure_first_documents, $document["surgical_procedure_first"]);
+    if (isset($document["pathologic_stage"])) {
+        array_push($pathologic_stage_documents, $document["pathologic_stage"]);
+    }
 
-    array_push($drug_name_1_documents, $document["drug_name_1"]);
-    array_push($drug_name_2_documents, $document["drug_name_2"]);
-    array_push($drug_name_3_documents, $document["drug_name_3"]);
-    array_push($drug_name_4_documents, $document["drug_name_4"]);
-    array_push($drug_name_5_documents, $document["drug_name_5"]);
-    array_push($drug_name_6_documents, $document["drug_name_6"]);
-    array_push($drug_name_7_documents, $document["drug_name_7"]);
-    array_push($drug_name_8_documents, $document["drug_name_8"]);
+    if (isset($document["surgical_procedure_first"])) {
+        array_push($surgical_procedure_first_documents, $document["surgical_procedure_first"]);
+    }
+
+    if (isset($document["drug_name_1"])) {
+        array_push($drug_name_1_documents, $document["drug_name_1"]);
+    }
+
+    if (isset($document["drug_name_2"])) {
+        array_push($drug_name_2_documents, $document["drug_name_2"]);
+    }
+
+    if (isset($document["drug_name_3"])) {
+        array_push($drug_name_3_documents, $document["drug_name_3"]);
+    }
+
+    if (isset($document["drug_name_4"])) {
+        array_push($drug_name_4_documents, $document["drug_name_4"]);
+    }
+    
+    if (isset($document["drug_name_5"])) {
+        array_push($drug_name_5_documents, $document["drug_name_5"]);
+    }
+
+    if (isset($document["drug_name_6"])) {
+        array_push($drug_name_6_documents, $document["drug_name_6"]);
+    }
+
+    if (isset($document["drug_name_7"])) {
+        array_push($drug_name_7_documents, $document["drug_name_7"]);
+    }
+
+    if (isset($document["drug_name_8"])) {
+        array_push($drug_name_8_documents, $document["drug_name_8"]);
+    }
 }
 
 // operations to prepare race data for viz.
@@ -661,7 +689,10 @@ foreach ($wide_local_excision as $key => $value) {
 
         layout_box = {
             title: 'Distribution of age of patients based on surgical procedure',
-            width: 1000
+            width: 1000,
+            yaxis: {
+                title: 'Age of diagnosis'
+            }
         }
 
         var data = [trace1, trace2, trace3, trace4];

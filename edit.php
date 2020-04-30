@@ -25,7 +25,7 @@ if(isset($_POST['update']))
         echo "<br/><a href='javascript:self.history.back();'>Go Back</a>";    
     } else {
         //updating the 'users' table/collection
-        $db->users->update(
+        $db->px_2->update(
                         array('_id' => new MongoId($id)),
                         array('$set' => $px_record)
                     );
